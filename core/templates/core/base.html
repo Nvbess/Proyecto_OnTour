@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agencia On Tour</title>
+
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/vendors/chartjs/Chart.min.css' %}">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <!-- Datepicker-->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="{% static 'assets/vendors/perfect-scrollbar/perfect-scrollbar.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/app.css' %}">
+    <link rel="shortcut icon" href="{% static 'assets/images/favicon.svg' %}" type="image/x-icon">
+</head>
+
+<body>
+    <div id="app">
+        <div id="sidebar" class='active'>
+            <div class="sidebar-wrapper active">
+                <div class="sidebar-header">
+                    <img src="{% static 'assets/images/logo_on_tour.png' %}" style="width: 200px; height: 200px;"
+                        srcset="">
+                </div>
+                <div class="sidebar-menu">
+                    <ul class="menu">
+                        <li class='sidebar-title'>Menu</li>
+                        <li class="sidebar-item active ">
+                            <a href="{% url 'index' %}" class='sidebar-link'>
+                                <i data-feather="home" width="20"></i>
+                                <span>Página Principal</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item  ">
+                            <a href="{% url 'contrato' %}" class='sidebar-link'>
+                                <i data-feather="file-text" width="20"></i>
+                                <span>Generar Contrato</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item  ">
+                            <a href="{% url 'listar' %}" class='sidebar-link'>
+                                <i data-feather="file-text" width="20"></i>
+                                <span>Listar Contratos</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
+            </div>
+        </div>
+        <div id="main">
+            <nav class="navbar navbar-header navbar-expand navbar-light">
+                <a class="sidebar-toggler" href="#"><span class="navbar-toggler-icon"></span></a>
+                <button class="btn navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav d-flex align-items-center navbar-light ml-auto">
+                        <li class="dropdown nav-icon">
+                            <a href="#" data-toggle="dropdown"
+                                class="nav-link  dropdown-toggle nav-link-lg nav-link-user">
+                                <div class="d-lg-inline-block">
+                                    <i data-feather="bell"></i>
+                                </div>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-large">
+                                <h6 class='py-2 px-4'>Notifications</h6>
+                                <ul class="list-group rounded-none">
+                                    <li class="list-group-item border-0 align-items-start">
+                                        <div class="avatar bg-success mr-3">
+                                            <span class="avatar-content"><i data-feather="shopping-cart"></i></span>
+                                        </div>
+                                        <div>
+                                            <h6 class='text-bold'>New Order</h6>
+                                            <p class='text-xs'>
+                                                An order made by Ahmad Saugi for product Samsung Galaxy S69
+                                            </p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="dropdown nav-icon mr-2">
+                            <a href="#" data-toggle="dropdown"
+                                class="nav-link  dropdown-toggle nav-link-lg nav-link-user">
+                                <div class="d-lg-inline-block">
+                                    <i data-feather="mail"></i>
+                                </div>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#"><i data-feather="user"></i> Account</a>
+                                <a class="dropdown-item active" href="#"><i data-feather="mail"></i> Messages</a>
+                                <a class="dropdown-item" href="#"><i data-feather="settings"></i> Settings</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#"><i data-feather="log-out"></i> Logout</a>
+                            </div>
+                        </li>
+                        {% if user.is_authenticated %}
+                        <li class="dropdown">
+                            <a href="#" data-toggle="dropdown"
+                                class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+                                <div class="avatar mr-1">
+                                    <img src="{% static 'assets/images/avatar/avatar-s-1.png' %}" alt="" srcset="">
+                                </div>
+                                <div class="d-none d-md-block d-lg-inline-block">Hola, {{ user.first_name }}</div>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <div class="dropdown-divider"></div>
+                                <form action="{% url 'logout' %}" method="POST">
+                                    {% csrf_token %}
+                                    <button class="btn dropdown-item" type="submit">
+                                        <i data-feather="log-out"></i> Cerrar Sesión
+                                    </button>
+                                </form>
+                            </div>
+                        </li>
+                        {% else %}
+                        <li class="dropdown">
+                            <a href="#" data-toggle="dropdown"
+                                class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+                                <div class="avatar mr-1">
+                                    <img src="{% static 'assets/images/avatar/avatar-s-1.png' %}" alt="" srcset="">
+                                </div>
+                                <div class="d-none d-md-block d-lg-inline-block">Menú</div>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="{% url 'login' %}"><i data-feather="user"></i> Iniciar Sesión </a>
+                            </div>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </nav>
+
+            {% block contenido %}
+
+            {% endblock %}
+
+            <footer>
+                <div class="footer clearfix mb-0 text-muted">
+                    <div class="float-left">
+                        <p>2024 &copy; Agencia On Tour</p>
+                    </div>
+                    <div class="float-right">
+                        <p>Crafted with <span class='text-danger'><i data-feather="heart"></i></span> by <a
+                                href="http://github.com/Nvbess">Analistas</a></p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="{% static 'assets/js/feather-icons/feather.min.js' %}"></script>
+    <script src="{% static 'assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+    <script src="{% static 'assets/js/app.js' %}"></script>
+
+    <script src="{% static 'assets/vendors/chartjs/Chart.min.js' %}"></script>
+    <script src="{% static 'assets/vendors/apexcharts/apexcharts.min.js' %}"></script>
+    <script src="{% static 'assets/js/pages/dashboard.js' %}"></script>
+
+    <script src="{% static 'assets/js/main.js' %}"></script>
+    <!-- Cargar jQuery desde CDN -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <!-- Cargar Bootstrap JS desde CDN -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <!-- Cargar Bootstrap Datepicker JS desde CDN -->
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Inicializar el Datepicker -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.datepicker').datepicker({
+                format: 'yyyy-mm-dd',
+                autoclose: true,
+                todayHighlight: true
+            });
+        });
+    </script>
+    {% if messages %}
+    {% for aux in messages %}
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 4000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
+        Toast.fire({
+            icon: "{{aux.tags}}",
+            title: "{{aux}}"
+        })
+    </script>
+    {% endfor %}
+    {% endif %}
+</body>
+
+</html>

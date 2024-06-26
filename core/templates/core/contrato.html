@@ -1,0 +1,80 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block contenido %}
+
+{% load crispy_forms_tags %}
+
+<section id="multiple-column-form" style="padding: 8%; margin-left: 5%; margin-right: 5%;">
+    <div class="row match-height">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                <h1 class="card-title" style="margin-top: 2%;">Generar contrato</h1>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <form class="form" method="POST">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        {{ form.nombre|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        {{ form.appaterno|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        {{ form.apmaterno|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <div class="col-md-8 col-12">
+                                    <div class="form-group">
+                                        {{ form.direccion|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        {{ form.ciudad|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        {{ form.pais|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-12">
+                                    <div class="form-group">
+                                        {{ form.fecha_inicio|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-12">
+                                    <div class="form-group">
+                                        {{ form.fecha_termino|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        {{ form.rut|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    {{ form.tipo_viaje|as_crispy_field }}
+                                </div>
+                                <div class="col-12 d-flex justify-content-end">
+                                    <input type="reset" class="btn btn-danger mr-1 mb-1" value="Cancelar">
+                                    <input type="submit" class="btn btn-primary mr-1 mb-1" value="Generar">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
