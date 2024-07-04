@@ -2,6 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .models import *
 from .forms import *
+from io import BytesIO
+from django.http import HttpResponse
+from xhtml2pdf import pisa
+from django.template.loader import get_template,render_to_string 
 
 # Create your views here.
 
@@ -34,3 +38,18 @@ def verContrato(request, id):
     contratos = get_object_or_404(Contrato, id=id)
 
     return render(request, 'core/ver-contrato.html', {'x': contratos})
+
+def contrato_to_pdf(request, id):
+    contratos = get_object_or_404(Contrato, id=id)
+    
+    html = render_to_string('core/contrato-pdf.html', {'x': contratos})
+    
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), result)
+    
+    if not pdf.err:
+        response = HttpResponse(result.getvalue(), content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="voucher_{contratos.id}.pdf"'
+        return response
+    
+    return HttpResponse('Error al generar el PDF.', status=500)

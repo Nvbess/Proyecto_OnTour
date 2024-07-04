@@ -27,14 +27,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-# Configuracion Static
+#CONFIGURACION STATIC
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
-# Configuracion Crispy
+#CONFIGURACION CRISPY
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 #CONFIGURACION LOGIN Y LOGOUT
@@ -58,7 +58,6 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap4',
     "bootstrap4",
-    "bootstrap_datepicker_plus",
 ]
 
 MIDDLEWARE = [
