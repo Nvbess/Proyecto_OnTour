@@ -16,22 +16,27 @@
                         <form class="form" method="POST">
                             {% csrf_token %}
                             <div class="row">
-                                <div class="col-md-4 col-12">
+                                <div class="col-md-2 col-12">
                                     <div class="form-group">
                                         {{ form.nombre|as_crispy_field }}
                                     </div>
                                 </div>
-                                <div class="col-md-4 col-12">
+                                <div class="col-md-3 col-12">
                                     <div class="form-group">
                                         {{ form.appaterno|as_crispy_field }}
                                     </div>
                                 </div>
-                                <div class="col-md-4 col-12">
+                                <div class="col-md-3 col-12">
                                     <div class="form-group">
                                         {{ form.apmaterno|as_crispy_field }}
                                     </div>
                                 </div>
-                                <div class="col-md-8 col-12">
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group">
+                                        {{ form.rut|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         {{ form.direccion|as_crispy_field }}
                                     </div>
@@ -41,28 +46,36 @@
                                         {{ form.ciudad|as_crispy_field }}
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-12">
+                                <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         {{ form.pais|as_crispy_field }}
                                     </div>
                                 </div>
-                                <div class="col-md-3 col-12">
+                                <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         {{ form.fecha_inicio|as_crispy_field }}
                                     </div>
                                 </div>
-                                <div class="col-md-3 col-12">
+                                <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         {{ form.fecha_termino|as_crispy_field }}
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-12">
-                                    <div class="form-group">
-                                        {{ form.rut|as_crispy_field }}
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-12">
+                                <div class="col-md-4 col-12">
                                     {{ form.tipo_viaje|as_crispy_field }}
+                                </div>
+                                <div style="padding: 3%;"></div>
+                                <div class="col-md-4 col-12">
+                                    {{ form.cantidad_alumnos|as_crispy_field }}
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    {{ form.monto_total|as_crispy_field }}
+                                </div>
+                                <div class="col-md-4 col-12 d-flex justify-content-center" style="margin-bottom: 3%; font-family: Arial, Helvetica, sans-serif;">
+                                    <div class="form-group">
+                                        <label for="costo_por_alumno">Costo por Alumno</label>
+                                        <b><p id="costo_por_alumno" class="form-control-static"></p></b>
+                                    </div>
                                 </div>
                                 <div class="col-12 d-flex justify-content-end">
                                     <input type="reset" class="btn btn-danger mr-1 mb-1" value="Cancelar">
@@ -76,5 +89,29 @@
         </div>
     </div>
 </section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        function calculateCostoPorAlumno() {
+            const montoTotal = parseFloat(document.getElementById('id_monto_total').value) || 0;
+            const cantidadAlumnos = parseInt(document.getElementById('id_cantidad_alumnos').value) || 0;
+            let costoPorAlumno = 0;
+
+            if (cantidadAlumnos > 0) {
+                costoPorAlumno = montoTotal / cantidadAlumnos;
+            }
+
+            // Formatear como moneda
+            const formattedCosto = new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(costoPorAlumno);
+            document.getElementById('costo_por_alumno').textContent = formattedCosto;
+        }
+
+        document.getElementById('id_monto_total').addEventListener('input', calculateCostoPorAlumno);
+        document.getElementById('id_cantidad_alumnos').addEventListener('input', calculateCostoPorAlumno);
+
+        // Calculate initially in case the form is pre-filled
+        calculateCostoPorAlumno();
+    });
+</script>
 
 {% endblock %}
