@@ -34,6 +34,8 @@
                 <div class="sidebar-menu">
                     <ul class="menu">
                         <li class='sidebar-title'>Menu</li>
+                        {% for group in user.groups.all %}
+                        {% if group.name == 'Agente' %}
                         <li class="sidebar-item active ">
                             <a href="{% url 'index' %}" class='sidebar-link'>
                                 <i data-feather="home" width="20"></i>
@@ -46,13 +48,34 @@
                                 <span>Generar Contrato</span>
                             </a>
                         </li>
-
                         <li class="sidebar-item  ">
                             <a href="{% url 'listar' %}" class='sidebar-link'>
                                 <i data-feather="file-text" width="20"></i>
                                 <span>Listar Contratos</span>
                             </a>
                         </li>
+                        <li class="sidebar-item ">
+                            <a href="{% url 'registrar_rep' %}" class='sidebar-link'>
+                                <i data-feather="users" width="20"></i>
+                                <span>Creación de cuentas</span>
+                            </a>
+                        </li>
+                        {% endif %}
+                        {% if group.name == 'Representante' %}
+                        <li class="sidebar-item active ">
+                            <a href="{% url 'index' %}" class='sidebar-link'>
+                                <i data-feather="home" width="20"></i>
+                                <span>Página Principal</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item ">
+                            <a href="{% url 'listarRep' %}" class='sidebar-link'>
+                                <i data-feather="users" width="20"></i>
+                                <span>Revisar Contratos</span>
+                            </a>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
                     </ul>
                 </div>
                 <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
